@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  benday.presidents.webui:
+    image: benday/presidents.webui
+    depends_on: 
+      - db
+    build:
+      context: ./webui
+      dockerfile: Dockerfile
+      args:
+        - 'ConnectionStrings__default=Server=db; Initial Catalog=president-core-dev; User Id=presidents-user; Password=YayPresidents!;'
+    environment:
+      ConnectionStrings__default: "Server=db; Initial Catalog=president-core-dev; User Id=presidents-user; Password=YayPresidents!;"
+      
+  db:
+    image: benday/presidents.database
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    environment:            
+      SA_PASSWORD: "OhPleaseStopWithTheComplexPasswordRules!"
+      ACCEPT_EULA: "Y"
